@@ -34,10 +34,8 @@ import http.cookiejar
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "saengnim-camp-CHANGE-ME-9f3a7")
 
 # 감시 목록: 체크인 날짜(YYYYMMDD) + 숙박일수(박). 필요하면 자유롭게 추가/수정.
-# 10/17·24·31 + 11월 토요일 체크인 1박2일 (전부)
+# 10/31 + 11월 토요일 체크인 1박2일 (전부)
 TARGETS = [
-    {"checkin": "20261017", "nights": 1},   # 10/17(토) 1박2일
-    {"checkin": "20261024", "nights": 1},   # 10/24(토) 1박2일
     {"checkin": "20261031", "nights": 1},   # 10/31(토) 1박2일
     {"checkin": "20261107", "nights": 1},   # 11/7(토) 1박2일
     {"checkin": "20261114", "nights": 1},   # 11/14(토) 1박2일
