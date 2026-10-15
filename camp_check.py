@@ -50,7 +50,7 @@ FACILITIES = [
 ]
 
 # 같은 빈자리에 대해 재알림하기까지 최소 간격(분). 가능 상태가 유지되면 이 간격마다 리마인드.
-RENOTIFY_MINUTES = 60
+RENOTIFY_MINUTES = 180
 
 # 하루 1번 "감시 정상 작동 / 아직 빈자리 없음" 조용한 알림. 0 이면 끔.
 HEARTBEAT_HOURS = 24
@@ -281,7 +281,7 @@ def run_check(status_only=False):
     log("확인 완료 -", "빈자리 있음!" if any_available else "빈자리 없음.")
     for ln in status_lines:
         log("  " + ln)
-    return 1 if any_available else 0
+    return 0  # 빈자리 발견해도 정상 종료(0): 실패 처리되면 깃허브가 알림 상태 캐시를 저장하지 않아 매번 중복 알림이 감
 
 
 def main():
