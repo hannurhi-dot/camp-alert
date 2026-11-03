@@ -34,16 +34,14 @@ import http.cookiejar
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "saengnim-camp-CHANGE-ME-9f3a7")
 
 # 감시 목록: 체크인 날짜(YYYYMMDD) + 숙박일수(박). 필요하면 자유롭게 추가/수정.
-# 10/31 + 11월 토요일 체크인 1박2일 (전부)
+# 날짜별로 감시할 구역을 따로 지정할 수 있음 ("facilities" 가 없으면 FACILITIES 사용).
 TARGETS = [
-    {"checkin": "20261031", "nights": 1},   # 10/31(토) 1박2일
-    {"checkin": "20261107", "nights": 1},   # 11/7(토) 1박2일
-    {"checkin": "20261114", "nights": 1},   # 11/14(토) 1박2일
-    {"checkin": "20261121", "nights": 1},   # 11/21(토) 1박2일
-    {"checkin": "20261128", "nights": 1},   # 11/28(토) 1박2일
+    {"checkin": "20261114", "nights": 1, "facilities": ["0004"]},          # 11/14(토) 파쇄석만
+    {"checkin": "20261121", "nights": 1, "facilities": ["0004"]},          # 11/21(토) 파쇄석만
+    {"checkin": "20261128", "nights": 1, "facilities": ["0001", "0004"]},  # 11/28(토) 잔디+파쇄석
 ]
 
-# 감시할 시설 구역. 잔디 + 파쇄석.
+# 기본 감시 구역 (날짜별 지정이 없을 때). 데크(0002)는 제외.
 FACILITIES = [
     ("0001", "잔디사이트"),
     ("0004", "파쇄석사이트"),
@@ -228,6 +226,8 @@ def run_check(status_only=False):
         remain = remain_by_month.get(checkin[:6], {})
         need = nights_of(checkin, nights)
         blocked = [n for n in need if remain.get(n, 0) <= 0]
+        want = t.get("facilities")
+        facs = [f for f in FACILITIES if (not want or f[0] in want)]
 
         if blocked:
             status_lines.append("· %s → 불가 (마감: %s)"
@@ -237,7 +237,7 @@ def run_check(status_only=False):
             continue
 
         # 필요한 밤이 전부 여유 있음 → 구역별 상세 확인
-        for fc, fname in FACILITIES:
+        for fc, fname in facs:
             key = "%s|%s|%s" % (checkin, nights, fc)
             try:
                 sites = get_available_sites(op, fc, checkin, nights)
