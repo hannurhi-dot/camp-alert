@@ -35,11 +35,7 @@ NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "saengnim-camp-CHANGE-ME-9f3a7")
 
 # 감시 목록: 체크인 날짜(YYYYMMDD) + 숙박일수(박). 필요하면 자유롭게 추가/수정.
 # 날짜별로 감시할 구역을 따로 지정할 수 있음 ("facilities" 가 없으면 FACILITIES 사용).
-TARGETS = [
-    {"checkin": "20261114", "nights": 1, "facilities": ["0004"]},          # 11/14(토) 파쇄석만
-    {"checkin": "20261121", "nights": 1, "facilities": ["0004"]},          # 11/21(토) 파쇄석만
-    {"checkin": "20261128", "nights": 1, "facilities": ["0001", "0004"]},  # 11/28(토) 잔디+파쇄석
-]
+TARGETS = []   # 감시 대상 없음 (알림 모두 끔)
 
 # 기본 감시 구역 (날짜별 지정이 없을 때). 데크(0002)는 제외.
 FACILITIES = [
@@ -51,7 +47,7 @@ FACILITIES = [
 RENOTIFY_MINUTES = 180
 
 # 하루 1번 "감시 정상 작동 / 아직 빈자리 없음" 조용한 알림. 0 이면 끔.
-HEARTBEAT_HOURS = 24
+HEARTBEAT_HOURS = 0
 
 # ================== 사이트 고정값 (건드릴 필요 없음) ==================
 SHOP_ENCODE = "f5f32b56abe23f9aec682e337c7ee65772a4438ff09b56823d4c7d2a7528d940"
